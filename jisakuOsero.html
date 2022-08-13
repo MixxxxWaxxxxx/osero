@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./jisakuOsero.css">
+    <script>const changeColor = {
+            myTurnColorChange: (element) => {
+                element.classList.add("black");
+            },
+            yourTurnColorChange: (element) => {
+                element.classList.add("white");
+            },
+            chanColorChange: (id) => {
+                const chainId = document.getElementById(id);
+                changeColor.myTurnColorChange(chainId);
+            }
+        }
+    </script>
+    <title>自作オセロ</title>
+</head>
+
+<body>
+    <div id="container" class="container">
+
+    </div>
+</body>
+
+</html>
+<script>
+
+
+
+    const init = () => {
+        let myTurn = 1;
+
+        const container = document.getElementById('container');
+        let hairetsu = [];
+        for (let y = 0; y < 8; y++) {
+            hairetsu[y] = [];
+            for (let x = 0; x < 8; x++) {
+                let component = document.createElement('div');
+                component.style.top = `${y * 40}px`;
+                component.style.left = `${x * 40}px`;
+                component.classList.add("component");
+                component.id = `${[y]}` + `${[x]}`;
+                hairetsu[y][x] = component;
+                container.appendChild(component);
+                component.id = `${x}` + `${y}`;
+                const id = document.getElementById(`${x}` + `${y}`);
+                const div = document.createElement("div");
+                hairetsu[y][x].appendChild(div);
+                id.appendChild(div);
+                div.id = "cercle" + `${x}` + `${y}`;
+                div.classList.add("cercle")
+                const cercleId = document.getElementById("cercle" + `${x}` + `${y}`);
+                cercleId.addEventListener('click', (e) => {
+                    const cercleId = e.target.id;
+                    if (e.currentTarget.className == "cercle" && myTurn == 1) {
+                        changeColor.myTurnColorChange(e.currentTarget);
+                        let nextCercleNuber = parseInt(cercleId.replace("cercle", ""));
+                        let upCercleId = `cercle${nextCercleNuber - 1}`;
+                        let leftCercleId = `cercle${nextCercleNuber - 10}`;
+                        let downCercleId = `cercle${nextCercleNuber + 1}`;
+                        let rightCercleId = `cercle${nextCercleNuber + 10}`;
+                        myTurn = myTurn - 1;
+                        return;
+                    }else{
+                        changeColor.yourTurnColorChange(e.currentTarget)
+                        let nextCercleNuber = parseInt(cercleId.replace("cercle", ""));
+                        let upCercleId = `cercle${nextCercleNuber - 1}`;
+                        let leftCercleId = `cercle${nextCercleNuber - 10}`;
+                        let downCercleId = `cercle${nextCercleNuber + 1}`;
+                        let rightCercleId = `cercle${nextCercleNuber + 10}`;
+                        myTurn = myTurn + 1;
+                        return;
+                    }
+                }, false)
+            }
+        }
+    }
+    const showBoard = function () {
+        document.getElementById("cercle34").classList.add("black");
+        document.getElementById("cercle43").classList.add("black");
+        document.getElementById("cercle33").classList.add("white");
+        document.getElementById("cercle44").classList.add("white");
+    }
+
+    window.addEventListener('load', () => {
+        init();
+        showBoard();
+        // const myTurnColorChange = (element) => {
+        //     element.classList.add("black");
+        // }
+        //     const yourTurnColorChange = (element) => {
+        //     element.classList.add("white");
+        // }
+        // const chanColorChange = (id) => {
+        //     const chainId = document.getElementById(id);
+        //     myTurnColorChange(chainId);
+        // }
+    })
+
+
+</script>
